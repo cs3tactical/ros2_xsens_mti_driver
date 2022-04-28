@@ -17,23 +17,22 @@ support on Xsens MTi products, please refer to Xsens knowledge base: https://bas
 
 ## Building
 
-- Copy bluespace_ai_xsens_mti_driver folder into your ROS 2.0 workspace `src` folder.
+- Copy ros2_xsens_mti_driver folder into your ROS 2.0 workspace `src` folder.
   Make sure the permissions are set to o+rw on your files and directories.
 
 - Build Xsens MTi driver package:
 
-        $ colcon build
+        $ colcon build --event-handlers console_direct+ --cmake-args -DBUILD_TESTING=ON
+
+- Test the xsens MTi driver package:
+
+        $ colcon test --event-handlers console_direct+
 
 - Source workspace:
 
         $ source install/setup.bash
 
-Note: Building of 'xspublic' from the ament workspace has been automated in the CMake script.
-To build it manually, run the following from the ROS2.0 workspace root:
-
-        $ pushd src/bluespace_ai_xsens_ros_mti_driver/lib/xspublic
-        $ make
-        $ popd
+Note: Building of 'xspublic' from the ament workspace has been automated CMake.
 
 Changes in this release compared to the Xsens ROS 1.0 driver open source:
 
@@ -55,7 +54,7 @@ Changes in this release compared to the Xsens ROS 1.0 driver open source:
 
 - Launch the Xsens MTi driver from your ament workspace:
 
-        $ ros2 launch bluespace_ai_xsens_mti_driver xsens_mti_node.launch.py
+        $ ros2 launch ros2_xsens_mti_driver xsens_mti_node.launch.py
 
     After the device has been detected, you can communicate with it from another process / terminal window.
     For example:
@@ -80,7 +79,7 @@ Changes in this release compared to the Xsens ROS 1.0 driver open source:
 
 - There is also an example that shows a 3D visualization of the device (orientation data should be enabled in the device):
 
-        $ ros2 launch bluespace_ai_xsens_mti_driver display.launch.py
+        $ ros2 launch ros2_xsens_mti_driver display.launch.py
 
 ## Compatibility
 

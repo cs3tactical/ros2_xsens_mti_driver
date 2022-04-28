@@ -23,7 +23,6 @@ add_library(
 target_compile_options(
     xscommon
     PRIVATE
-    -fPIC
     "SHELL:-include xstypes/xsens_compat.h"
     "SHELL:-include xscommon_config.h"
 )
@@ -32,6 +31,7 @@ set_target_properties(
     xscommon
     PROPERTIES
     CXX_STANDARD 11
+    POSITION_INDEPENDENT_CODE ON
 )
 
 target_include_directories(
@@ -57,7 +57,6 @@ add_library(
 target_compile_options(
     xscontroller
     PRIVATE
-    -fPIC
     "SHELL:-include xscontrollerconfig.h"
 )
 
@@ -79,6 +78,7 @@ set_target_properties(
     xscontroller
     PROPERTIES
     CXX_STANDARD 11
+    POSITION_INDEPENDENT_CODE ON
 )
 
 target_include_directories(
@@ -103,16 +103,11 @@ add_library(
     ${SRC_FILES}
 )
 
-target_compile_options(
-    xstypes
-    PRIVATE
-    -fPIC
-)
-
 set_target_properties(
     xstypes
     PROPERTIES
     CXX_STANDARD 11
+    POSITION_INDEPENDENT_CODE ON
 )
 
 target_include_directories(

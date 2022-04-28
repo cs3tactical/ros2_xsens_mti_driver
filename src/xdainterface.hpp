@@ -97,6 +97,7 @@ private:
   bool handleError(std::string error);
   void declareCommonParameters();
   bool configureDevice();
+  bool configureAlignmentQuat(const std::string & name);
 
   XsControl * m_control;
   XsDevice * m_device;

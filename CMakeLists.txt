@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(bluespace_ai_xsens_mti_driver)
+project(ros2_xsens_mti_driver)
+
+option(XSENS_MTI_RVIZ "Install rviz and urdf files" ON)
 
 cmake_policy(SET CMP0057 NEW)
 
@@ -74,9 +76,15 @@ install(TARGETS xsens_mti_node
   DESTINATION lib/${PROJECT_NAME}
 )
 
-install(DIRECTORY launch param rviz urdf
+install(DIRECTORY launch param
   DESTINATION share/${PROJECT_NAME}
 )
+
+if(XSENS_MTI_RVIZ)
+  install(DIRECTORY rviz urdf
+    DESTINATION share/${PROJECT_NAME}
+  )
+endif()
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
