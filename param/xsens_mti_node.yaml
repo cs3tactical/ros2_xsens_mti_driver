@@ -20,6 +20,10 @@
         ## Log file (optional), placed in ~/.ros/ otherwise use absolute path
         log_file: log.mtb
 
+        # Control orientation reset, if enabled the configured method will be used to reset the orientation directly after starting the measurement.
+        enable_orientation_reset: false
+        orientation_reset_method: 0 # refer to XsResetMethod
+
         publisher_queue_size: 5
 
         # Configure the sensor to rotate its output using:

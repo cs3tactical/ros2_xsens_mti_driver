@@ -68,6 +68,7 @@
 #include <xscontroller/xscontrol_def.h>
 #include <xscontroller/xsdevice_def.h>
 #include <xstypes/xsfilterprofilearray.h>
+#include <xstypes/xsresetmethod.h>
 
 #include "messagepublishers/packetcallback.hpp"
 #include "messagepublishers/accelerationpublisher.hpp"
@@ -426,6 +427,21 @@ bool XdaInterface::prepare()
     }
   }
 
+  bool enableOrientationReset = false;
+  get_parameter("enable_orientation_reset", enableOrientationReset);
+  if (enableOrientationReset) {
+    RCLCPP_INFO(get_logger(), "Performing orientation reset");
+    int method = static_cast<int>(XRM_None);
+    if (get_parameter("orientation_reset_method", method)) {
+      RCLCPP_INFO(get_logger(), " - request reset method: %d", method);
+      if (!m_device->resetOrientation(static_cast<XsResetMethod>(method))) {
+        return handleError("Failed to schedule an orienation reset");
+      }
+    } else {
+      RCLCPP_INFO(get_logger(), " - no method provided, orientation reset NOT performed");
+    }
+  }
+
   return true;
 }
 
@@ -487,6 +503,8 @@ void XdaInterface::declareCommonParameters()
   declare_parameter("config_baudrate", XsBaud::rateToNumeric(XBR_Invalid));
   declare_parameter<std::vector<XsReal>>("alignment_local_quat", {1., 0., 0., 0.});
   declare_parameter<std::vector<XsReal>>("alignment_sensor_quat", {1., 0., 0., 0.});
+  declare_parameter("enable_orientation_reset", false);
+  declare_parameter("orientation_reset_method", static_cast<int>(XRM_None));
 
   declare_parameter("enable_logging", false);
   declare_parameter("log_file", "log.mtb");
