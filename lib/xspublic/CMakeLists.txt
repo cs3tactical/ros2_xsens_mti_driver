@@ -27,6 +27,12 @@ target_compile_options(
     "SHELL:-include xscommon_config.h"
 )
 
+target_compile_definitions(
+    xscommon
+    PRIVATE
+    -DXSENS_DEBUG
+)
+
 set_target_properties(
     xscommon
     PROPERTIES
@@ -64,6 +70,7 @@ target_compile_definitions(
     xscontroller
     PRIVATE
     -DHAVE_JOURNALLER
+    -DXSENS_DEBUG
 )
 
 if(${MY_LIBUSB_FOUND})
@@ -114,4 +121,10 @@ target_include_directories(
     xstypes
     PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+target_compile_definitions(
+    xstypes
+    PRIVATE
+    -DXSENS_DEBUG
 )

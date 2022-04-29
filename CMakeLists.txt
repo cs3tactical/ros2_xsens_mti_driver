@@ -44,6 +44,7 @@ target_link_libraries(
 add_executable(
 	xsens_mti_node
 	src/main.cpp
+  src/additional_logger_ros.cpp
 	src/xdainterface.cpp
 	src/xdacallback.cpp
 )

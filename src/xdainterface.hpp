@@ -74,6 +74,7 @@ struct XsDevice;
 
 
 class PacketCallback;
+class AdditionalLoggerRos;
 
 class XdaInterface : public rclcpp::Node
 {
@@ -104,6 +105,7 @@ private:
   XsPortInfo m_port;
   XdaCallback m_xdaCallback;
   std::list<PacketCallback *> m_callbacks;
+  AdditionalLoggerRos * m_additional_logger;
 };
 
 #endif

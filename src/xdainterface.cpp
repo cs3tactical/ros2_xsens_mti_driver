@@ -61,6 +61,7 @@
 
 #include "xdainterface.hpp"
 #include "xdautils.hpp"
+#include "additional_logger_ros.hpp"
 
 #include <vector>
 
@@ -69,6 +70,7 @@
 #include <xscontroller/xsdevice_def.h>
 #include <xstypes/xsfilterprofilearray.h>
 #include <xstypes/xsresetmethod.h>
+#include <xscommon/journaller.h>
 
 #include "messagepublishers/packetcallback.hpp"
 #include "messagepublishers/accelerationpublisher.hpp"
@@ -94,6 +96,8 @@ XdaInterface::XdaInterface(const std::string & node_name, const rclcpp::NodeOpti
   m_xdaCallback(*this)
 {
   declareCommonParameters();
+  m_additional_logger = new AdditionalLoggerRos(this->get_logger().get_child("xs"));
+  Journaller::setAdditionalLogger(m_additional_logger);
   RCLCPP_INFO(get_logger(), "Creating XsControl object...");
   m_control = XsControl::construct();
   assert(m_control != 0);
@@ -104,6 +108,8 @@ XdaInterface::~XdaInterface()
   RCLCPP_INFO(get_logger(), "Cleaning up ...");
   close();
   m_control->destruct();
+  Journaller::setAdditionalLogger(nullptr);
+  delete m_additional_logger;
 }
 
 void XdaInterface::spinFor(std::chrono::milliseconds timeout)
