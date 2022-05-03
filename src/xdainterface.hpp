@@ -86,7 +86,6 @@ public:
 
   void spinFor(std::chrono::milliseconds timeout);
   void registerPublishers();
-  void registerDiagnostics(diagnostic_updater::Updater & updater);
 
   bool connectDevice();
   bool prepare();
@@ -100,8 +99,10 @@ private:
   void declareCommonParameters();
   bool configureDevice();
   bool configureAlignmentQuat(const std::string & name);
+  void registerDiagnostics();
   void produceDiagnostics(diagnostic_updater::DiagnosticStatusWrapper & stat);
 
+  diagnostic_updater::Updater m_updater;
   XsControl * m_control;
   XsDevice * m_device;
   XsPortInfo m_port;

@@ -95,6 +95,7 @@ XdaInterface::XdaInterface(const std::string & node_name, const rclcpp::NodeOpti
 : Node(node_name, options),
   m_device(nullptr),
   m_xdaCallback(*this),
+  m_updater(this),
   m_last_status(0)
 {
   declareCommonParameters();
@@ -454,15 +455,17 @@ bool XdaInterface::prepare()
     }
   }
 
+  registerDiagnostics();
+
   return true;
 }
 
-void XdaInterface::registerDiagnostics(diagnostic_updater::Updater & updater)
+void XdaInterface::registerDiagnostics()
 {
   assert(m_device != 0);
 
-  updater.setHardwareID(m_device->deviceId().toString().c_str());
-  updater.add("Status", this, &XdaInterface::produceDiagnostics);
+  m_updater.setHardwareID(m_device->deviceId().toString().c_str());
+  m_updater.add("Status", this, &XdaInterface::produceDiagnostics);
 }
 
 void XdaInterface::produceDiagnostics(diagnostic_updater::DiagnosticStatusWrapper & stat)
@@ -473,9 +476,7 @@ void XdaInterface::produceDiagnostics(diagnostic_updater::DiagnosticStatusWrappe
   const bool any_acc_clipped = xs_status.anyAccClipped();
   const bool any_gyr_clipped = xs_status.anyGyrClipped();
 
-  if (!self_test_ok) {
-    stat.summary(diagnostic_msgs::msg::DiagnosticStatus::ERROR, "Self test failed");
-  } else if (!orientation_valid) {
+  if (!orientation_valid) {
     stat.summary(diagnostic_msgs::msg::DiagnosticStatus::WARN, "orientation invalid");
   } else if (any_acc_clipped) {
     stat.summary(diagnostic_msgs::msg::DiagnosticStatus::WARN, "Acceleration clipped");
@@ -485,6 +486,7 @@ void XdaInterface::produceDiagnostics(diagnostic_updater::DiagnosticStatusWrappe
     stat.summary(diagnostic_msgs::msg::DiagnosticStatus::OK, "Ok");
   }
 
+  stat.add("Status", m_last_status);
   stat.add("Self test ok", self_test_ok);
   stat.add("Orientation valid", orientation_valid);
   stat.add("Any acceleration clipped", any_acc_clipped);
