@@ -11,9 +11,10 @@ support on Xsens MTi products, please refer to Xsens knowledge base: https://bas
 
 ## Prerequisites
 
-- ROS 2.0 Galactic/Foxy
+- ROS 2.0 Humble
 - C/C++ Compiler: GCC 5.4.0 or MSVC 14.0
 - C++14
+- sudo apt install ros-humble-diagnostic-updater
 
 ## Building
 
