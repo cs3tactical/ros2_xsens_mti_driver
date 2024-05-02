@@ -33,6 +33,7 @@
         # TF transform frame_id (default: imu_link), you may want to change it if you use multiple devices
         frame_id: "imu_link"
         # reference_frame_id: "world"
+        publish_tf: false
 
         # Message publishers
         pub_imu: true

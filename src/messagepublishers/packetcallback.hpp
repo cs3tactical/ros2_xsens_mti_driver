@@ -67,6 +67,7 @@
 
 const char * DEFAULT_FRAME_ID = "imu_link";
 const char * DEFAULT_REFERENCE_FRAME_ID = "world";
+const bool  DEFAULT_PUBLISH_TF = false;
 
 class PacketCallback
 {

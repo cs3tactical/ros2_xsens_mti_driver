@@ -71,17 +71,21 @@ struct TransformPublisher : public PacketCallback
   tf2_ros::TransformBroadcaster tf_broadcaster;
   std::string frame_id = DEFAULT_FRAME_ID;
   std::string reference_frame_id = DEFAULT_REFERENCE_FRAME_ID;
+  bool publish_tf = DEFAULT_PUBLISH_TF;
 
   TransformPublisher(rclcpp::Node & node)
   : tf_broadcaster(node)
   {
+    node.declare_parameter("publish_tf", false);
+
     node.get_parameter("frame_id", frame_id);
     node.get_parameter("reference_frame_id", reference_frame_id);
+    node.get_parameter("publish_tf", publish_tf);
   }
 
   void operator()(const XsDataPacket & packet, rclcpp::Time timestamp)
   {
-    if (packet.containsOrientation()) {
+    if (packet.containsOrientation() && publish_tf) {
       geometry_msgs::msg::TransformStamped tf;
 
       XsQuaternion q = packet.orientationQuaternion();
