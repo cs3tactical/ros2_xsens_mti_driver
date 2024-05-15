@@ -6,7 +6,7 @@
         ##          true:   the driver ignores port and baudrate settings, scans for devices on all ports and selects the first found
         ##          false: = Requires correct port and baudrate both to be specified
         scan_for_devices: false
-        port: "/dev/ttyUSB0" # port name, e.g. '/dev/ttyUSB0'
+        port: "/dev/mti_imu" # port name, e.g. '/dev/ttyUSB0'
         baudrate: 921600 # non necessary for some devices
         config_baudrate: 921600
 
@@ -32,8 +32,8 @@
 
         # TF transform frame_id (default: imu_link), you may want to change it if you use multiple devices
         frame_id: "imu_link"
-        # reference_frame_id: "world"
-        publish_tf: false
+        reference_frame_id: "world"
+        publish_tf: true
 
         # Message publishers
         pub_imu: true
